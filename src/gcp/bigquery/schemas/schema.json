@@ -1,0 +1,74 @@
+[
+    {
+        "name": "id",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Unique identifier based on cca3"
+    },
+    {
+        "name": "name",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Country name"
+    },
+    {
+        "name": "capital",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Capital city"
+    },
+    {
+        "name": "population",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Country population size"
+    },
+    {
+        "name": "area",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": "Geographical size of the country"
+    },
+    {
+        "name": "languages",
+        "type": "STRING",
+        "mode": "REPEATED",
+        "description": "List of official languages"
+    },
+    {
+        "name": "region",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Geographic region"
+    },
+    {
+        "name": "subregion",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Geographic subregion"
+    },
+    {
+        "name": "currencies",
+        "type": "STRING",
+        "mode": "REPEATED",
+        "description": "List of currencies"
+    },
+    {
+        "name": "timezones",
+        "type": "STRING",
+        "mode": "REPEATED",
+        "description": "List of time zones"
+    },
+    {
+        "name": "json_data",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Raw JSON data from the API"
+    },
+    {
+        "name": "extract_data",
+        "type": "TIMESTAMP",
+        "mode": "NULLABLE",
+        "description": "Date of data extraction or insertion"
+    }
+]
