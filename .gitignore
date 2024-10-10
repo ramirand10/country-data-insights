@@ -17,3 +17,6 @@ ENV/
 
 # Ignore environment configuration scripts
 env.sh
+
+# Ignore .DS_Store
+.DS_Store
