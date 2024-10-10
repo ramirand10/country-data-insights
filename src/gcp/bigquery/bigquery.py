@@ -20,17 +20,18 @@ class BigQueryClient:
         except Exception as exp:
             logger.error(f'Erro ao criar o dataset {self.full_dataset_id}. Err: {str(exp)}')
 
-    def create_table_if_not_exists(self, table_id: str, schema: List[bigquery.SchemaField],
-                                   partitioning_field: str = None) -> None:
+    def create_table_if_not_exists(self, table_id: str, schema: List[bigquery.SchemaField]) -> None:
         full_table_id = f'{self.full_dataset_id}.{table_id}'
         try:
             self.client.get_table(full_table_id)
             logger.info(f"Tabela {full_table_id} já existe.")
         except exceptions.NotFound:
             table = bigquery.Table(full_table_id, schema=schema)
-            if partitioning_field:
-                table.time_partitioning = bigquery.TimePartitioning(field=partitioning_field)
-            self.client.create_table(table)
+            table.time_partitioning = bigquery.TimePartitioning(
+                type_=bigquery.TimePartitioningType.DAY,
+                field="extract_data"
+            )
+            self.client.create_table(full_table_id)
             logger.info(f"Tabela {full_table_id} criada com sucesso.")
         except Exception as e:
             logger.error(f"Erro ao criar a tabela {full_table_id}. Erro: {str(e)}")
