@@ -1,4 +1,5 @@
 from datetime import datetime
+import functions_framework
 from logger import logger
 from restcountries.api import CountriesAPI
 from schema.schema import schema
@@ -10,8 +11,8 @@ GCP_DATASET = 'country_raw'
 TABLE_ID = 'countries_data'
 
 
-def main(request=None):
-
+@functions_framework.http
+def main(request):
     countries_api = CountriesAPI()
 
     try:
@@ -19,14 +20,12 @@ def main(request=None):
         logger.info("Dados obtidos com sucesso da API Rest Countries.")
     except Exception as e:
         logger.error(f"Erro ao buscar dados da API ou processar datas: {str(e)}")
-        return
+        return {'error': 'Erro ao buscar dados da API.'}, 500
 
     bigquery_client = BigQueryClient(GCP_PROJECT_ID, GCP_DATASET)
-
     bigquery_client.create_table_if_not_exists(TABLE_ID, schema)
 
     result = bigquery_client.query(TABLE_ID)
-
     last_extract_date = result[0].get('last_extract_date', None) if result else None
 
     if last_extract_date:
@@ -52,5 +51,6 @@ def main(request=None):
         })
 
     bigquery_client.insert_rows(rows_to_insert, TABLE_ID)
-
     logger.info("Processo concluído com sucesso!")
+
+    return {'message': 'Dados processados com sucesso!'}, 200
